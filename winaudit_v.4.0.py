@@ -15,7 +15,7 @@ def main(argv):
 
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
-        xml_files = {'winaudit' : None, 'info' : None} # Used to save a two element dictionary containing the _winudit and _info files
+        xml_files = {'winaudit' : None, 'info' : None} # Used to save a two element dictionary containing the _winaudit and _info files
         
         for file in files: # Look for the two files and save them to the dictionary
             if file.endswith('.xml'):
@@ -106,7 +106,28 @@ class WinAudit(object):
                             self.set_variable('User ID', winaudit_tree.find("./category[@title='System Overview']/subcategory/recordset/datarow[17]/fieldvalue[2]").text)
 
                         # Get last installed update
-                            # updates = winaudit_tree.find("./category[@title='Installed Software']/subcategory[@title='Software Updates']/recordset")
+                            update_tree = winaudit_tree.find("./category[@title='Installed Software']/subcategory[@title='Software Updates']/recordset")
+                            date_list = [] # Used to store list of dates
+                            for recordset in update_tree:
+                                if str(recordset.tag) == "datarow":
+                                  update_description = recordset.find("fieldvalue[3]").text # Store update description
+                                  update_date = recordset.find("fieldvalue[2]").text # Store installed on date
+                                  
+                                  # Match only security updates descriptions
+                                  if re.match(r'(Security Update$)|(Security Update for Windows XP(.*))|(Security Update for Windows 7(.*))|(Security Update for Windows Server 2003(.*))', str(update_description), re.IGNORECASE):
+                                    if update_date is not None:
+                                        if '-' in update_date:
+                                            date_list.append(datetime.datetime.strptime(update_date, '%Y-%m-').date())
+                                        elif '/' in update_date:
+                                            date_list.append(datetime.datetime.strptime(update_date, '%m/%d/%Y').date())
+                                        else:
+                                            self.variables['Windows Update'] = 'error'
+
+                            # Sort list of dates
+                            date_list = sorted(date_list)
+
+                            # return latest date (last element)
+                            self.variables['Windows Update'] = str(date_list[-1])
 
                         # Done
                             break
@@ -140,7 +161,6 @@ class WinAudit(object):
                     # Pull Notes
                     if info_tree.find("./notes").text:
                         self.set_variable('Notes', info_tree.find("./notes").text.replace(',', '').replace('\n',' '))
-
 
 
 if __name__ == "__main__":

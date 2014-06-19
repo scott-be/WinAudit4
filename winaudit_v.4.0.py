@@ -135,7 +135,7 @@ class WinAudit(object):
                         print e
 
             # Parse _info.xml
-                if self._winaudit != None:
+                if self._info != None:
                     info_tree = ET.parse(self._info)
                     # Pull Location
                     self.set_variable('Location', info_tree.find("./location").text)

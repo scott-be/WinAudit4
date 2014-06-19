@@ -10,14 +10,14 @@ def main(argv):
     print '* Happy Hacking!                                            *'
     print '*===========================================================*'
 
-    # Get the file path if no file path is provided as a argument
+    # Get the file path if no file path is provided as an argument
     folderpath = raw_input('Enter a file path: ').strip().replace('"','') if len(argv) == 1 else argv[1]
 
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
         xml_files = {'winaudit' : None, 'info' : None} # Used to save a two element dictionary containing the _winaudit and _info files
         
-        for file in files: # Look for the two files and save them to the dictionary
+        for file in files: # Look for the two files (_winaudit and _info) and save them to the xml_files dictionary
             if file.endswith('.xml'):
                 if file.endswith('_winaudit.xml'):
                     xml_files['winaudit'] = root + os.sep + file

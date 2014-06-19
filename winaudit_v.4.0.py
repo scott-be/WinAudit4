@@ -54,6 +54,7 @@ class WinAudit(object):
                 'Antivirus Software'        : '',
                 'Antivirus Definition Date' : '',
                 'Windows Update'            : '',
+                'IP Address'                : '',
                 'Notes'                     : ''
             }
 
@@ -129,6 +130,25 @@ class WinAudit(object):
                             # return latest date (last element)
                             self.variables['Windows Update'] = str(date_list[-1])
 
+                        # Get IP address
+                            interfaces = winaudit_tree.find("./category[@title='Network TCP/IP']").getchildren() # get a list of interfaces
+
+                            for i, interface in enumerate(interfaces): # loop through all the interfaces
+                                ip_address = interface.find('recordset/datarow[10]/fieldvalue[2]').text
+
+                                # set ip_address to an empty string if ip_address is NoneType
+                                if ip_address == None:
+                                    ip_address = ''
+
+                                # look to see if the IP found is a real IP address and break
+                                if re.match(r'(?:\d{1,3}\.){3}\d{1,3}', ip_address):
+                                    self.set_variable('IP Address', ip_address)
+                                    break
+
+                                # if we cant find an ip just give up :(
+                                if i == len(interfaces)-1: # Look to see if its the last interface and insert a newline
+                                    self.set_variable('IP Address', 'can\'t find ip address :/')
+
                         # Done
                             break
                     except Exception as e:
@@ -173,5 +193,5 @@ TODO = '''
         [ ] - error handeling for bad xml files
         [ ] - transpose output
         [ ] - save to file
-        [ ] - add ip addresss to the output
+        [X] - add ip addresss to the output
         '''

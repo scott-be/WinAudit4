@@ -24,9 +24,9 @@ def main(argv):
                 if file.endswith('_info.xml'):
                     xml_files['info'] = root + os.sep + file
 
-        scan = WinAudit(xml_files['winaudit'], xml_files['info'])
-        scan.audit()
-        scan.print_variables()
+                scan = WinAudit(xml_files['winaudit'], xml_files['info']) # create a new WinAudit object and pass it the _winaudit and _info files
+                scan.audit() # parse the files
+                scan.print_variables() # print the files
 
 class WinAudit(object):
         def __init__(self, winaudit = None, info = None):

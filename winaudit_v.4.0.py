@@ -65,10 +65,35 @@ class WinAudit(object):
             return self.variables.get(k, None)
 
         def print_variables(self):
-            print self._winaudit
-            print self._info
-            for k, v in self.variables.iteritems():
-                print k + '\t' + v
+            print '~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~='
+            order = (
+                'Scan Date',
+                'Location',
+                'Computer Name',
+                'Computer Type',
+                'OS Version',
+                'Autologon Enabled',
+                'Screensaver Enabled',
+                'Screensaver Timeout',
+                'Screensaver Password',
+                'Network Logoff',
+                'Minimum Password Length',
+                'Maximum Password Age',
+                'Historical Passwords',
+                'Lockout Threshold',
+                'Encrtption Software',
+                'Hard Drive Encryption',
+                'USB Encryption',
+                'User ID',
+                'Antivirus Software',
+                'Antivirus Definition Date',
+                'Windows Update',
+                'IP Address',
+                'Notes'
+            )
+
+            for k in order:
+                print k + '\t' + self.get_variable(k)
 
         def audit(self):
             # Parse winaudit.xml
@@ -188,7 +213,7 @@ if __name__ == "__main__":
 
 
 TODO = '''
-        [ ] - output in correct order
+        [X] - output in correct order
         [X] - windows update
         [ ] - error handeling for bad xml files
         [ ] - transpose output

@@ -168,8 +168,10 @@ if __name__ == "__main__":
 
 
 TODO = '''
-        * Windows Update
-        * Error Handeling for bad xml files
-        * transpose output
-        * save to file
+        [ ] - output in correct order
+        [X] - windows update
+        [ ] - error handeling for bad xml files
+        [ ] - transpose output
+        [ ] - save to file
+        [ ] - add ip addresss to the output
         '''

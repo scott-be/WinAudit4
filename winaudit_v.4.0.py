@@ -12,6 +12,18 @@ def main(argv):
 
     # Get the file path if no file path is provided as an argument
     folderpath = raw_input('Enter a file path: ').strip().replace('"','') if len(argv) == 1 else argv[1]
+    filename = ''
+
+    # Create output folder if it does not exists...
+    if not os.path.exists('output'):
+        os.makedirs('output') # Create an output dir
+
+    # Saves the file as the current datetime + _output in the output dir
+    time_now        = datetime.datetime.now().strftime("%Y-%m-%d-%I.%M.%S")
+    # output_filename = 'output' + os.sep + time_now + '_output.csv'
+    output_filename = 'out.txt'
+    output_file     = open(output_filename,'w')
+
 
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
@@ -27,6 +39,7 @@ def main(argv):
                 scan = WinAudit(xml_files['winaudit'], xml_files['info']) # create a new WinAudit object and pass it the _winaudit and _info files
                 scan.audit() # parse the files
                 scan.print_variables() # print the files
+                scan.write(output_filename)
 
 class WinAudit(object):
         def __init__(self, winaudit = None, info = None):
@@ -92,8 +105,16 @@ class WinAudit(object):
                 'Notes'
             )
 
+            f = open('out.txt', 'w')
             for k in order:
                 print k + '\t' + self.get_variable(k)
+                f.write(k + ',' + self.get_variable(k))
+                
+            f.write('\n')
+            f.close()
+
+        def write(self, filename):
+            pass
 
         def audit(self):
             # Parse winaudit.xml

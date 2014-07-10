@@ -24,6 +24,7 @@ def main(argv):
     output_filename = 'out.csv'
     output_file     = open(output_filename,'w')
 
+    write_header(output_file)
 
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
@@ -44,6 +45,10 @@ def main(argv):
                 scan.audit() # parse the files
                 scan.print_variables() # print the files
                 scan.write(output_filename)
+def write_header(output_file):
+    for k in WinAudit.ORDER:
+        output_file.write(k + ',')
+    output_file.write('\n')
 
 class WinAudit(object):
         ORDER = (

@@ -27,6 +27,8 @@ def main(argv):
 
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
+        if root == folderpath: continue # Skip the root folder
+
         xml_files = {'winaudit' : None, 'info' : None} # Used to save a two element dictionary containing the _winaudit and _info files
         
         for file in files: # Look for the two files (_winaudit and _info) and save them to the xml_files dictionary

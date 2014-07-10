@@ -23,28 +23,27 @@ def main(argv):
     # output_filename = 'output' + os.sep + time_now + '_output.csv'
     output_filename = 'out.csv'
     output_file     = open(output_filename,'w')
-
     write_header(output_file)
 
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
         if root == folderpath: continue # Skip the root folder
-
         xml_files = {'winaudit' : None, 'info' : None} # Used to save a two element dictionary containing the _winaudit and _info files
-        
+
         for file in files: # Look for the two files (_winaudit and _info) and save them to the xml_files dictionary
             if file.endswith('.xml'):
                 if file.endswith('_winaudit.xml'):
                     xml_files['winaudit'] = root + os.sep + file
                 if file.endswith('_info.xml'):
                     xml_files['info'] = root + os.sep + file
+        
+        scan = WinAudit(xml_files['winaudit'], xml_files['info']) # create a new WinAudit object and pass it the _winaudit and _info files
+        scan.audit() # parse the files
+        scan.print_variables() # print the files
+        scan.write(output_file)
 
     output_file.close() # Close file
 
-                scan = WinAudit(xml_files['winaudit'], xml_files['info']) # create a new WinAudit object and pass it the _winaudit and _info files
-                scan.audit() # parse the files
-                scan.print_variables() # print the files
-                scan.write(output_filename)
 def write_header(output_file):
     for k in WinAudit.ORDER:
         output_file.write(k + ',')

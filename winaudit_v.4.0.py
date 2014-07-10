@@ -112,9 +112,10 @@ class WinAudit(object):
             return self.variables.get(k, None)
 
         def print_variables(self):
-            print '~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~='
-            for k in self.ORDER:
-                print k + '\t' + self.get_variable(k)
+            # print '~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~='
+            # for k in self.ORDER:
+            #     print k + '\t' + self.get_variable(k)
+            print '[Done] - ', self.get_variable('Computer Name')
 
         def write(self, f):
             for k in self.ORDER:

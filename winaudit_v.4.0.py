@@ -53,17 +53,17 @@ def write_header(output_file):
     output_file.write('\n')
 
 class WinAudit(object):
-        ORDER = (
+        HOSP_ORDER = (
             'Scan Date',
             'Location',
             'Computer Name',
             'Computer Type',
             'OS Version',
             'Autologon Enabled',
-            'Screensaver Enabled',
-            'Screensaver Timeout',
-            'Screensaver Password',
-            'Network Logoff',
+            'Screen Saver Enabled',
+            'Screen Saver Timeout',
+            'Screen Saver Password Protected',
+            'Force Network Logoff',
             'Minimum Password Length',
             'Maximum Password Age',
             'Historical Passwords',
@@ -71,41 +71,70 @@ class WinAudit(object):
             'Encrtption Software',
             'Hard Drive Encryption',
             'USB Encryption',
-            'User ID',
+            'Unique User ID',
             'Antivirus Software',
             'Antivirus Definition Date',
+            'Days Since AV Update',
             'Windows Update',
+            'Days Since Patch',
             'Internal IP Address',
             'Notes'
         )
+
+        MG_ORDER = (
+            'Location',
+            'Scan Date',
+            'Computer Name',
+            'Autologon Enabled',
+            'Screen Saver Enabled',
+            'Screen Saver Timeout',
+            'Screen Saver Password Protected',
+            'Force Network Logoff',
+            'Minimum Password Length',
+            'Maximum Password Age',
+            'Historical Passwords',
+            'Lockout Threshold',
+            'Hard Drive Encryption',
+            'USB Encryption',
+            'Unique User ID',
+            'Antivirus Software',
+            'Days Since AV Update',
+            'Antivirus Definition Date',
+            'Windows Update',
+            'Days Since Patch',
+            'Notes'
+        )
+        ORDER = MG_ORDER
 
         def __init__(self, winaudit = None, info = None):
             self._winaudit = winaudit
             self._info = info
             self.variables = {
-                'Scan Date'                 : '',
-                'Location'                  : '',
-                'Computer Name'             : '',
-                'Computer Type'             : '',
-                'OS Version'                : '',
-                'Autologon Enabled'         : '',
-                'Screensaver Enabled'       : '',
-                'Screensaver Timeout'       : '',
-                'Screensaver Password'      : '',
-                'Network Logoff'            : '',
-                'Minimum Password Length'   : '',
-                'Maximum Password Age'      : '',
-                'Historical Passwords'      : '',
-                'Lockout Threshold'         : '',
-                'Encrtption Software'       : '',
-                'Hard Drive Encryption'     : '',
-                'USB Encryption'            : '',
-                'User ID'                   : '',
-                'Antivirus Software'        : '',
-                'Antivirus Definition Date' : '',
-                'Windows Update'            : '',
-                'Internal IP Address'       : '',
-                'Notes'                     : ''
+                'Scan Date'                         : '',
+                'Location'                          : '',
+                'Computer Name'                     : '',
+                'Computer Type'                     : '',
+                'OS Version'                        : '',
+                'Autologon Enabled'                 : '',
+                'Screen Saver Enabled'              : '',
+                'Screen Saver Timeout'              : '',
+                'Screen Saver Password Protected'   : '',
+                'Force Network Logoff'              : '',
+                'Minimum Password Length'           : '',
+                'Maximum Password Age'              : '',
+                'Historical Passwords'              : '',
+                'Lockout Threshold'                 : '',
+                'Encrtption Software'               : '',
+                'Hard Drive Encryption'             : '',
+                'USB Encryption'                    : '',
+                'Unique User ID'                    : '',
+                'Antivirus Software'                : '',
+                'Days Since AV Update'              : '',
+                'Antivirus Definition Date'         : '',
+                'Windows Update'                    : '',
+                'Internal IP Address'               : '',
+                'Days Since Patch'                  : '',
+                'Notes'                             : ''
             }
 
         def set_variable(self, k, v):
@@ -149,17 +178,17 @@ class WinAudit(object):
                         # Pull & Add - Security Settings
                             security_settings = winaudit_tree.find("./category[@title='Security']/subcategory[@title='Security Settings']/recordset")
                             self.set_variable('Autologon Enabled', security_settings[3][2].text)
-                            self.set_variable('Screensaver Enabled', security_settings[4][2].text)
-                            self.set_variable('Screensaver Timeout', security_settings[5][2].text)
-                            self.set_variable('Screensaver Password', security_settings[6][2].text)
-                            self.set_variable('Network Logoff', security_settings[7][2].text)
+                            self.set_variable('Screen Saver Enabled', security_settings[4][2].text)
+                            self.set_variable('Screen Saver Timeout', security_settings[5][2].text)
+                            self.set_variable('Screen Saver Password Protected', security_settings[6][2].text)
+                            self.set_variable('Force Network Logoff', security_settings[7][2].text)
                             self.set_variable('Minimum Password Length', security_settings[8][2].text)
                             self.set_variable('Maximum Password Age', security_settings[9][2].text)
                             self.set_variable('Historical Passwords', security_settings[10][2].text)
                             self.set_variable('Lockout Threshold', security_settings[11][2].text)
 
                         # Pull & Add Username
-                            self.set_variable('User ID', winaudit_tree.find("./category[@title='System Overview']/subcategory/recordset/datarow[17]/fieldvalue[2]").text)
+                            self.set_variable('Unique User ID', winaudit_tree.find("./category[@title='System Overview']/subcategory/recordset/datarow[17]/fieldvalue[2]").text)
 
                         # Get last installed update
                             update_tree = winaudit_tree.find("./category[@title='Installed Software']/subcategory[@title='Software Updates']/recordset")

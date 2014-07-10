@@ -114,13 +114,8 @@ class WinAudit(object):
 
         def print_variables(self):
             print '~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~='
-            f = open('out.txt', 'w')
-            for k in order:
+            for k in self.ORDER:
                 print k + '\t' + self.get_variable(k)
-                f.write(k + ',' + self.get_variable(k))
-                
-            f.write('\n')
-            f.close()
 
         def write(self, f):
             for k in self.ORDER:

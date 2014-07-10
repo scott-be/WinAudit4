@@ -42,6 +42,32 @@ def main(argv):
                 scan.write(output_filename)
 
 class WinAudit(object):
+        ORDER = (
+            'Scan Date',
+            'Location',
+            'Computer Name',
+            'Computer Type',
+            'OS Version',
+            'Autologon Enabled',
+            'Screensaver Enabled',
+            'Screensaver Timeout',
+            'Screensaver Password',
+            'Network Logoff',
+            'Minimum Password Length',
+            'Maximum Password Age',
+            'Historical Passwords',
+            'Lockout Threshold',
+            'Encrtption Software',
+            'Hard Drive Encryption',
+            'USB Encryption',
+            'User ID',
+            'Antivirus Software',
+            'Antivirus Definition Date',
+            'Windows Update',
+            'IP Address',
+            'Notes'
+        )
+
         def __init__(self, winaudit = None, info = None):
             self._winaudit = winaudit
             self._info = info
@@ -79,32 +105,6 @@ class WinAudit(object):
 
         def print_variables(self):
             print '~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~='
-            order = (
-                'Scan Date',
-                'Location',
-                'Computer Name',
-                'Computer Type',
-                'OS Version',
-                'Autologon Enabled',
-                'Screensaver Enabled',
-                'Screensaver Timeout',
-                'Screensaver Password',
-                'Network Logoff',
-                'Minimum Password Length',
-                'Maximum Password Age',
-                'Historical Passwords',
-                'Lockout Threshold',
-                'Encrtption Software',
-                'Hard Drive Encryption',
-                'USB Encryption',
-                'User ID',
-                'Antivirus Software',
-                'Antivirus Definition Date',
-                'Windows Update',
-                'IP Address',
-                'Notes'
-            )
-
             f = open('out.txt', 'w')
             for k in order:
                 print k + '\t' + self.get_variable(k)

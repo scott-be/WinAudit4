@@ -21,7 +21,7 @@ def main(argv):
     # Saves the file as the current datetime + _output in the output dir
     time_now        = datetime.datetime.now().strftime("%Y-%m-%d-%I.%M.%S")
     # output_filename = 'output' + os.sep + time_now + '_output.csv'
-    output_filename = 'out.txt'
+    output_filename = 'out.csv'
     output_file     = open(output_filename,'w')
 
 

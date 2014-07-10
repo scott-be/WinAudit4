@@ -240,4 +240,5 @@ TODO = '''
         [ ] - transpose output
         [ ] - save to file
         [X] - add ip addresss to the output
+        [ ] - escape xml file input for csv delimiters
         '''

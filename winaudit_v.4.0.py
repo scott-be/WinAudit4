@@ -246,7 +246,6 @@ TODO = '''
         [X] - output in correct order
         [X] - windows update
         [ ] - error handeling for bad xml files
-        [ ] - transpose output
         [ ] - transpose output (Medical Group output)
         [X] - save to file
         [X] - add internal ip addresss to the output

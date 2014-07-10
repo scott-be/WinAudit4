@@ -25,6 +25,7 @@ def main(argv):
     output_file     = open(output_filename,'w')
     write_header(output_file)
 
+    num_scanned = 0 # index to keep track of number of scans
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
         if root == folderpath: continue # Skip the root folder
@@ -41,7 +42,9 @@ def main(argv):
         scan.audit() # parse the files
         scan.print_variables() # print the files
         scan.write(output_file)
-
+        num_scanned += 1
+    print '=~=~=~=~=~=~=~=~=~=~=~=~'
+    print 'Scanned', num_scanned, 'file(s)'
     output_file.close() # Close file
 
 def write_header(output_file):

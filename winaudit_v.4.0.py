@@ -122,8 +122,10 @@ class WinAudit(object):
             f.write('\n')
             f.close()
 
-        def write(self, filename):
-            pass
+        def write(self, f):
+            for k in self.ORDER:
+                f.write(self.get_variable(k) + ',')
+            f.write('\n')
 
         def audit(self):
             # Parse winaudit.xml

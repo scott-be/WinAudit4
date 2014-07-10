@@ -72,7 +72,7 @@ class WinAudit(object):
             'Antivirus Software',
             'Antivirus Definition Date',
             'Windows Update',
-            'IP Address',
+            'Internal IP Address',
             'Notes'
         )
 
@@ -101,7 +101,7 @@ class WinAudit(object):
                 'Antivirus Software'        : '',
                 'Antivirus Definition Date' : '',
                 'Windows Update'            : '',
-                'IP Address'                : '',
+                'Internal IP Address'       : '',
                 'Notes'                     : ''
             }
 
@@ -181,24 +181,24 @@ class WinAudit(object):
                             # return latest date (last element)
                             self.variables['Windows Update'] = str(date_list[-1])
 
-                        # Get IP address
+                        # Get Internal IP address
                             interfaces = winaudit_tree.find("./category[@title='Network TCP/IP']").getchildren() # get a list of interfaces
 
                             for i, interface in enumerate(interfaces): # loop through all the interfaces
-                                ip_address = interface.find('recordset/datarow[10]/fieldvalue[2]').text
+                                int_ip_address = interface.find('recordset/datarow[10]/fieldvalue[2]').text
 
-                                # set ip_address to an empty string if ip_address is NoneType
-                                if ip_address == None:
-                                    ip_address = ''
+                                # set int_ip_address to an empty string if int_ip_address is NoneType
+                                if int_ip_address == None:
+                                    int_ip_address = ''
 
                                 # look to see if the IP found is a real IP address and break
-                                if re.match(r'(?:\d{1,3}\.){3}\d{1,3}', ip_address):
-                                    self.set_variable('IP Address', ip_address)
+                                if re.match(r'(?:\d{1,3}\.){3}\d{1,3}', int_ip_address):
+                                    self.set_variable('Internal IP Address', int_ip_address)
                                     break
 
                                 # if we cant find an ip just give up :(
                                 if i == len(interfaces)-1: # Look to see if its the last interface and insert a newline
-                                    self.set_variable('IP Address', 'can\'t find ip address :/')
+                                    self.set_variable('Internal IP Address', 'can\'t find internal ip address :/')
 
                         # Done
                             break
@@ -243,7 +243,8 @@ TODO = '''
         [X] - windows update
         [ ] - error handeling for bad xml files
         [ ] - transpose output
+        [ ] - transpose output (Medical Group output)
         [X] - save to file
-        [X] - add ip addresss to the output
+        [X] - add internal ip addresss to the output
         [ ] - escape xml file input for csv delimiters
         '''

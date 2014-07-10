@@ -243,7 +243,7 @@ TODO = '''
         [X] - windows update
         [ ] - error handeling for bad xml files
         [ ] - transpose output
-        [ ] - save to file
+        [X] - save to file
         [X] - add ip addresss to the output
         [ ] - escape xml file input for csv delimiters
         '''

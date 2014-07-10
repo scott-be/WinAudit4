@@ -38,6 +38,8 @@ def main(argv):
                 if file.endswith('_info.xml'):
                     xml_files['info'] = root + os.sep + file
 
+    output_file.close() # Close file
+
                 scan = WinAudit(xml_files['winaudit'], xml_files['info']) # create a new WinAudit object and pass it the _winaudit and _info files
                 scan.audit() # parse the files
                 scan.print_variables() # print the files

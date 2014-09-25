@@ -15,8 +15,8 @@ def main(argv):
     filename = ''
 
     # Create output folder if it does not exists...
-    if not os.path.exists('output'):
-        os.makedirs('output') # Create an output dir
+    # if not os.path.exists('output'):
+    #     os.makedirs('output') # Create an output dir
 
     # Saves the file as the current datetime + _output in the output dir
     time_now        = datetime.datetime.now().strftime("%Y-%m-%d-%I.%M.%S")
@@ -26,6 +26,7 @@ def main(argv):
     write_header(output_file)
 
     num_scanned = 0 # index to keep track of number of scans
+    num_winaudit_files = 0
     # Look for _winaudit.xml and _info.xml files and save into dictionary
     for root, dirs, files in os.walk(folderpath):
         if root == folderpath: continue # Skip the root folder
@@ -35,6 +36,7 @@ def main(argv):
             if file.endswith('.xml'):
                 if file.endswith('_winaudit.xml'):
                     xml_files['winaudit'] = root + os.sep + file
+                    num_winaudit_files += 1
                 if file.endswith('_info.xml'):
                     xml_files['info'] = root + os.sep + file
         
@@ -44,8 +46,9 @@ def main(argv):
         scan.write(output_file)
         num_scanned += 1
     print '=~=~=~=~=~=~=~=~=~=~=~=~'
-    print 'Scanned', num_scanned, 'file(s)'
+    print 'Scanned', num_scanned, 'file(s) out of', num_winaudit_files, 'files'
     output_file.close() # Close file
+    raw_input('Press any key to quit.')
 
 def write_header(output_file):
     for k in WinAudit.ORDER:
@@ -291,4 +294,5 @@ TODO = '''
         [ ] - escape xml file input for csv delimiters
         [X] - output MAC address
         [X] - output DHCP server
+        [ ] - calculate windows update and AV datdiff
         '''

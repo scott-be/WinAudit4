@@ -102,6 +102,9 @@ class WinAudit(object):
             'Antivirus Definition Date',
             'Windows Update',
             'Days Since Patch',
+            'Internal IP Address',
+            'DHCP Server',
+            'MAC Address',
             'Notes'
         )
         ORDER = MG_ORDER
@@ -133,6 +136,8 @@ class WinAudit(object):
                 'Antivirus Definition Date'         : '',
                 'Windows Update'                    : '',
                 'Internal IP Address'               : '',
+                'MAC Address'                       : '',
+                'DHCP Server'                       : '',
                 'Days Since Patch'                  : '',
                 'Notes'                             : ''
             }
@@ -224,9 +229,14 @@ class WinAudit(object):
                                 if int_ip_address == None:
                                     int_ip_address = ''
 
-                                # look to see if the IP found is a real IP address and break
+                                # look to see if the IP found is a real IP address, set network variables and break
                                 if re.match(r'(?:\d{1,3}\.){3}\d{1,3}', int_ip_address):
+                                    # Set IP Address...
                                     self.set_variable('Internal IP Address', int_ip_address)
+                                    # Set MAC Address...
+                                    self.set_variable('MAC Address', interface.find('recordset/datarow[16]/fieldvalue[2]').text)
+                                    # Set DHCP Server...
+                                    self.set_variable('DHCP Server', interface.find('recordset/datarow[9]/fieldvalue[2]').text)
                                     break
 
                                 # if we cant find an ip just give up :(
@@ -279,4 +289,6 @@ TODO = '''
         [X] - save to file
         [X] - add internal ip addresss to the output
         [ ] - escape xml file input for csv delimiters
+        [X] - output MAC address
+        [X] - output DHCP server
         '''

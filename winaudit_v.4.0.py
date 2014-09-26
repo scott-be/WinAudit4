@@ -233,7 +233,7 @@ class WinAudit(object):
                                     int_ip_address = ''
 
                                 # look to see if the IP found is a real IP address, set network variables and break
-                                if re.match(r'(?:\d{1,3}\.){3}\d{1,3}', int_ip_address):
+                                if re.match(r'(?:\d{1,3}\.){3}\d{1,3}', int_ip_address) and int_ip_address != '0.0.0.0':
                                     # Set IP Address...
                                     self.set_variable('Internal IP Address', int_ip_address)
                                     # Set MAC Address...
@@ -294,5 +294,5 @@ TODO = '''
         [ ] - escape xml file input for csv delimiters
         [X] - output MAC address
         [X] - output DHCP server
-        [ ] - calculate windows update and AV datdiff
+        [ ] - calculate windows update and AV datdiff (take in account the error message "No Updates!")
         '''

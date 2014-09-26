@@ -39,12 +39,13 @@ def main(argv):
                     num_winaudit_files += 1
                 if file.endswith('_info.xml'):
                     xml_files['info'] = root + os.sep + file
-        
-        scan = WinAudit(xml_files['winaudit'], xml_files['info']) # create a new WinAudit object and pass it the _winaudit and _info files
-        scan.audit() # parse the files
-        scan.print_variables() # print the files
-        scan.write(output_file)
-        num_scanned += 1
+
+        if xml_files['winaudit'] != None and xml_files['info'] != None:
+            scan = WinAudit(xml_files['winaudit'], xml_files['info']) # create a new WinAudit object and pass it the _winaudit and _info files
+            scan.audit() # parse the files
+            scan.print_variables() # print the files
+            scan.write(output_file)
+            num_scanned += 1
     print '=~=~=~=~=~=~=~=~=~=~=~=~'
     print 'Scanned', num_scanned, 'file(s) out of', num_winaudit_files, 'files'
     output_file.close() # Close file
@@ -146,7 +147,10 @@ class WinAudit(object):
             }
 
         def set_variable(self, k, v):
-            self.variables[k] = v;
+            if v == None:
+                self.variables[k] = "ERROR";
+            else:
+                self.variables[k] = v;
 
         def get_variable(self, k):
             return self.variables.get(k, None)
@@ -220,7 +224,10 @@ class WinAudit(object):
                             date_list = sorted(date_list)
 
                             # return latest date (last element)
-                            self.variables['Windows Update'] = str(date_list[-1])
+                            if len(date_list) > 0:
+                                self.variables['Windows Update'] = str(date_list[-1])
+                            else:
+                                self.variables['Windows Update'] = 'No Updates!'
 
                         # Get Internal IP address
                             interfaces = winaudit_tree.find("./category[@title='Network TCP/IP']").getchildren() # get a list of interfaces

@@ -190,15 +190,15 @@ class WinAudit(object):
 
                         # Pull & Add - Security Settings
                             security_settings = winaudit_tree.find("./category[@title='Security']/subcategory[@title='Security Settings']/recordset")
-                            self.set_variable('Autologon Enabled', security_settings[3][2].text)
-                            self.set_variable('Screen Saver Enabled', security_settings[4][2].text)
-                            self.set_variable('Screen Saver Timeout', security_settings[5][2].text)
-                            self.set_variable('Screen Saver Password Protected', security_settings[6][2].text)
-                            self.set_variable('Force Network Logoff', security_settings[7][2].text)
-                            self.set_variable('Minimum Password Length', security_settings[8][2].text)
-                            self.set_variable('Maximum Password Age', security_settings[9][2].text)
-                            self.set_variable('Historical Passwords', security_settings[10][2].text)
-                            self.set_variable('Lockout Threshold', security_settings[11][2].text)
+                            self.set_variable('Autologon Enabled', security_settings[3][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Screen Saver Enabled', security_settings[4][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Screen Saver Timeout', security_settings[5][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Screen Saver Password Protected', security_settings[6][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Force Network Logoff', security_settings[7][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Minimum Password Length', security_settings[8][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Maximum Password Age', security_settings[9][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Historical Passwords', security_settings[10][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
+                            self.set_variable('Lockout Threshold', security_settings[11][2].text.replace('Yes', 'Enabled').replace('No', 'Disabled'))
 
                         # Pull & Add Username
                             self.set_variable('Unique User ID', winaudit_tree.find("./category[@title='System Overview']/subcategory/recordset/datarow[17]/fieldvalue[2]").text)
